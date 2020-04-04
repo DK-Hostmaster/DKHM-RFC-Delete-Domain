@@ -12,6 +12,4 @@ RUN apt-get update && apt-get install -y \
  && rm -rf /var/lib/apt/lists/*
 RUN pip3 install pyspelling
 COPY entrypoint.sh /entrypoint.sh
-COPY spellcheck.yaml /spellcheck.yaml
-COPY wordlist.txt /wordlist.txt
 ENTRYPOINT ["/entrypoint.sh"]
