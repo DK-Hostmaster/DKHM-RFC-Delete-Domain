@@ -29,7 +29,7 @@
 <a id="introduction"></a>
 ## Introduction
 
-This is a draft and proposal for changes to the proces for domain name deletion via the DK Hostmaster EPP portal/service.
+This is a draft and proposal for changes to the process for domain name deletion via the DK Hostmaster EPP portal/service.
 
 <a id="about-this-document"></a>
 ### About this Document
