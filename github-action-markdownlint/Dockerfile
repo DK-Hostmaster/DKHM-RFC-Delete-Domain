@@ -1,6 +1,6 @@
 FROM node:current-slim
 
-LABEL "com.github.actions.name"="Markdownlint"
+LABEL "com.github.actions.name"="Markdownlint Action"
 LABEL "com.github.actions.description"="Tests all Markdownfiles"
 LABEL "com.github.actions.icon"="mic"
 LABEL "com.github.actions.color"="purple"
