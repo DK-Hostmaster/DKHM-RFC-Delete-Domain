@@ -56,7 +56,7 @@ Example (lifted from above):
 
 ```xml
     <extension>
-      <dkhm:delDate xmlns:dkhm="urn:dkhm:params:xml:ns:dkhm-3.2">2020-01-31T00:00:00.0Z</dkhm:delDate>
+      <dkhm:delDate xmlns:dkhm="urn:dkhm:xml:ns:dkhm-3.2">2020-01-31T00:00:00.0Z</dkhm:delDate>
     </extension>
 ```
 
