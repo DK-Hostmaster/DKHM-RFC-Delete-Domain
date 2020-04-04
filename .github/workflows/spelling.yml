@@ -3,7 +3,7 @@ on: push
 
 jobs:
   build:
-    name: Markdownlint
+    name: Spellcheck
     runs-on: ubuntu-latest
     steps:
     - uses: rojopolis/spellcheck-github-actions@0.2.0
