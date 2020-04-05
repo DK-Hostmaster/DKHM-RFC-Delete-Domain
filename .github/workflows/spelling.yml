@@ -7,4 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: ./github-action-spellcheck
+    # This step references the directory that contains the action.
+    - uses: ./.github/actions/spellcheck
+
