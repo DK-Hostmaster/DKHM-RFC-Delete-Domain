@@ -4,7 +4,7 @@ echo ""
 echo "Using pyspelling on repository files outlined in spellcheck.yaml"
 echo "----------------------------------------------------------------"
 
-pyspelling -c spellcheck.yaml
+pyspelling -c .spellcheck.yaml
 
 EXITCODE=$?
 
