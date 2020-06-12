@@ -13,16 +13,7 @@
   - [About this Document](#about-this-document)
   - [XML and XSD Examples](#xml-and-xsd-examples)
 - [Description](#description)
-  - [Setting and Unsetting the AuthInfo Token](#setting-and-unsetting-the-authinfo-token)
-  - [Fetching the AuthInfo via EPP](#fetching-the-authinfo-via-epp)
-  - [Name Server Change Request](#name-server-change-request)
-  - [Requesting a Name Server Change Using AuthInfo via a Pull Operation](#requesting-a-name-server-change-using-authinfo-via-a-pull-operation)
 - [XSD Definition](#xsd-definition)
-- [Scenario Matrix](#scenario-matrix)
-  - [AuthInfo Token Access](#authinfo-token-access)
-  - [Generation of AuthInfo token with Registry](#generation-of-authinfo-token-with-registry)
-  - [Change of Name Server, pull \(external and internal\)](#change-of-name-server-pull-external-and-internal)
-- [AuthInfo Token Format](#authinfo-token-format)
 - [References](#references)
 
 <!-- /MarkdownTOC -->
