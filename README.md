@@ -131,6 +131,30 @@ Example:
 </extension>
 ```
 
+<a id="xsd-definition"></a>
+## XSD Definition
+
+This XSD definition is for the proposed extension `dkhm:delDate`, which is used to communicate a deletion date differing from the default via the `delete domain` request.
+
+```xsd
+  <!-- custom: delDate  -->
+  <simpleType name="delDate">
+    <restriction base="dateTime" />
+  </simpleType>
+```
+
+Example (lifted from above):
+
+```xml
+  <extension>
+    <dkhm:delDate xmlns:dkhm="urn:dkhm:xml:ns:dkhm-3.2">2021-01-31T00:00:00.0Z</dkhm:delDate>
+  </extension>
+```
+
+Ref: [`dkhm-3.2.xsd`](https://raw.githubusercontent.com/DK-Hostmaster/epp-xsd-files/master/dkhm-3.2.xsd)
+
+:warning: The reference and file mentioned above is not released at this time, so this file might be re-versioned upon release.
+
 <a id="references"></a>
 ## References
 
