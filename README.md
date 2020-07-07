@@ -36,6 +36,26 @@ All example XML files are available in the [DK Hostmaster EPP XSD repository](ht
 <a id="description"></a>
 ## Description
 
+In addition to the standard EPP `delete domain` command, DK Hostmaster will support scheduling of deletion of domain names, by providing a date to the EPP `delete domain` command via an optional extension.
+
+The default is to deactivate immediately if possible, which complies with [RFC:5731]. Not being able to complete the request will result in a error, also in compliance with [RFC:5731]. Please see below for more information on the actual proces for deletion.
+
+The extension offers the ability to specify a date, this date will have to be in the future and prior to, or on the expiration date of the specified domain name.
+
+The current expiration date can be obtained using the `info domain` command and is specified in the `domain:exDate` field. The date conforms with the requered format.
+
+An example (do note the dates in examples might not be correct, meaning they might be in the past by the time of reading):
+
+```xml
+  <extension>
+    <dkhm:delDate xmlns:dkhm="urn:dkhm:xml:ns:dkhm-3.2">2021-01-31T00:00:00.0Z</dkhm:delDate>
+  </extension>
+```
+
+The date follows the format used in the EPP protocol, which complies with [RFC:3339][RFC3339].
+
+The XSD for the extension look as follows:
+
 ```xsd
   <!-- custom: delDate  -->
   <simpleType name="delDate">
@@ -43,18 +63,81 @@ All example XML files are available in the [DK Hostmaster EPP XSD repository](ht
   </simpleType>
 ```
 
-Example (lifted from above):
+Ref: [`dkhm-3.2.xsd`](https://raw.githubusercontent.com/DK-Hostmaster/epp-xsd-files/master/dkhm-3.2.xsd)
+
+The complete command will look as follows (example lifted from RFC:5731):
 
 ```xml
-    <extension>
-      <dkhm:delDate xmlns:dkhm="urn:dkhm:xml:ns:dkhm-3.2">2020-01-31T00:00:00.0Z</dkhm:delDate>
-    </extension>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+  <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+    <command>
+      <delete>
+        <domain:delete xmlns:domain="urn:ietf:params:xml:ns:domain-1.0">
+          <domain:name>eksempel.dk</domain:name>
+          </domain:delete>
+      </delete>
+      <clTRID>ABC-12345</clTRID>
+    </command>
+  </epp>
 ```
 
-Ref: [`dkhm-3.2.xsd`](https://raw.githubusercontent.com/DK-Hostmaster/epp-xsd-files/master/dkhm-3.2.xsd)
+And the complete command with a deletion date specification (example lifted from RFC:5731 and modified):
+
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+  <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+    <command>
+      <delete>
+        <domain:delete xmlns:domain="urn:ietf:params:xml:ns:domain-1.0">
+          <domain:name>eksempel.dk</domain:name>
+          </domain:delete>
+      </delete>
+      <extension>
+        <dkhm:delDate xmlns:dkhm="urn:dkhm:xml:ns:dkhm-3.2">2021-01-31T00:00:00.0Z</dkhm:delDate>
+      </extension>
+      <clTRID>ABC-12345</clTRID>
+    </command>
+  </epp>
+```
+
+Domain names are not deleted immediately, but are flagged as _scheduled for deletion_. This of the `delete command` is successful, the domain name will be flagged for deletion within the timeframe specified by the business rules implemented by DK Hostmaster.
+
+The response for a `delete domain` command will be `1001`.
+
+Response example (example lifted from RFC:5731 and modified):
+
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+  <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+    <response>
+      <result code="1001">
+        <msg>Command completed successfully; action pending</msg>
+      </result>
+      <trID>
+        <clTRID>ABC-12345</clTRID>
+        <svTRID>54321-XYZ</svTRID>
+      </trID>
+    </response>
+  </epp>
+```
+
+The expiration date will be adjusted accordingly and a status `pendingDelete` with an advisory date will be applied and made available via the reponse to the `info domain` command, via the DK Hostmaster extension: `domainAdvisory`.
+
+Example:
+
+```xml
+<extension>
+    <dkhm:domainAdvisory advisory="pendingDeletionDate" date="2021-01-31T00:00:00.0Z" domain="eksempel.dk" xmlns:dkhm="urn:dkhm:params:xml:ns:dkhm-3.2"/>
+</extension>
+```
 
 <a id="references"></a>
 ## References
 
 - [DK Hostmaster EPP Service Specification](https://github.com/DK-Hostmaster/epp-service-specification)
 - [DK Hostmaster EPP Service XSD Repository](https://github.com/DK-Hostmaster/epp-xsd-files)
+- [RFC:3339: "Date and Time on the Internet: Timestamps"][RFC3339]
+- [RFC:5731 "Extensible Provisioning Protocol (EPP) Domain Name Mapping"][RFC5731]
+
+[RFC5731]: https://www.rfc-editor.org/rfc/rfc5731.html
+[RFC3339]: https://www.rfc-editor.org/rfc/rfc3339.html
