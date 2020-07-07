@@ -31,18 +31,18 @@ We have adopted the term RFC (_Request For Comments_), due to the recognition in
 <a id="xml-and-xsd-examples"></a>
 ### XML and XSD Examples
 
-All example XML files are available in the [DK Hostmaster EPP XSD repository](https://github.com/DK-Hostmaster/epp-xsd-files) in the [delete-domain-dkhm-extension](https://github.com/DK-Hostmaster/epp-xsd-files/tree/delete-domain-dkhm-extension).
+All example XML files are available in the [DK Hostmaster EPP XSD repository](https://github.com/DK-Hostmaster/epp-xsd-files) in the [delete-domain-dkhm-extension](https://github.com/DK-Hostmaster/epp-xsd-files/tree/delete-domain-dkhm-extension) branch.
 
 <a id="description"></a>
 ## Description
 
 In addition to the standard EPP `delete domain` command, DK Hostmaster will support scheduling of deletion of domain names, by providing a date to the EPP `delete domain` command via an optional extension.
 
-The default is to deactivate immediately if possible, which complies with [RFC:5731]. Not being able to complete the request will result in a error, also in compliance with [RFC:5731]. Please see below for more information on the actual proces for deletion.
+The default is to deactivate immediately if possible, which complies with [RFC:5731]. Not being able to complete the request will result in a error, also in compliance with [RFC:5731]. Please see below for more information on the business process for deletion.
 
 The extension offers the ability to specify a date, this date will have to be in the future and prior to, or on the expiration date of the specified domain name.
 
-The current expiration date can be obtained using the `info domain` command and is specified in the `domain:exDate` field. The date conforms with the requered format.
+The current expiration date can be obtained using the `info domain` command and is specified in the `domain:exDate` field. The date conforms with the required format.
 
 An example (do note the dates in examples might not be correct, meaning they might be in the past by the time of reading):
 
@@ -121,7 +121,7 @@ Response example (example lifted from RFC:5731 and modified):
   </epp>
 ```
 
-The expiration date will be adjusted accordingly and a status `pendingDelete` with an advisory date will be applied and made available via the reponse to the `info domain` command, via the DK Hostmaster extension: `domainAdvisory`.
+The expiration date will be adjusted accordingly and a status `pendingDelete` with an advisory date will be applied and made available via the response to the `info domain` command, via the DK Hostmaster extension: `domainAdvisory`.
 
 Example:
 
