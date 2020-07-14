@@ -131,6 +131,8 @@ Example:
 </extension>
 ```
 
+In the RFC outlining automatic renewal "[DKHM RFC for handling of Automatic Renewal][DKHMRFCAUTORENEW]", it is outlined that a `delete domain` command will disable auto renewal if enabled. Please see the RFC for more details.
+
 <a id="xsd-definition"></a>
 ## XSD Definition
 
@@ -161,7 +163,10 @@ Ref: [`dkhm-3.2.xsd`](https://raw.githubusercontent.com/DK-Hostmaster/epp-xsd-fi
 - [DK Hostmaster EPP Service Specification](https://github.com/DK-Hostmaster/epp-service-specification)
 - [DK Hostmaster EPP Service XSD Repository](https://github.com/DK-Hostmaster/epp-xsd-files)
 - [RFC:3339: "Date and Time on the Internet: Timestamps"][RFC3339]
+- [RFC:5730 "Extensible Provisioning Protocol (EPP)"][RFC5730]
 - [RFC:5731 "Extensible Provisioning Protocol (EPP) Domain Name Mapping"][RFC5731]
 
+[RFC5730]: https://www.rfc-editor.org/rfc/rfc5730.html
 [RFC5731]: https://www.rfc-editor.org/rfc/rfc5731.html
 [RFC3339]: https://www.rfc-editor.org/rfc/rfc3339.html
+[DKHMRFCAUTORENEW]: https://github.com/DK-Hostmaster/DKHM-RFC-AutoRenew
