@@ -1,4 +1,5 @@
 {
+    "default": true,
     "html": false,
     "blanks-around-headings": false,
     "ul-indent": {
