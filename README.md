@@ -21,7 +21,9 @@
 <a id="introduction"></a>
 ## Introduction
 
-This is a draft and proposal for changes to the process for domain name deletion via the DK Hostmaster EPP portal/service.
+This is a draft and proposal for changes to the process for domain name deletion via the DK Hostmaster EPP portal/service. The specification briefly touches on the registrar portal service, which mimicks the EPP service for consistency.
+
+The overall [description of the concept][CONCEPT] of the registrar model offered by DK Hostmaster A/S provised a an general overview, where this RFC digs into the details of the Client-ID in the context of an implementation proposal.
 
 <a id="about-this-document"></a>
 ### About this Document
@@ -170,3 +172,4 @@ Ref: [`dkhm-3.2.xsd`](https://raw.githubusercontent.com/DK-Hostmaster/epp-xsd-fi
 [RFC5731]: https://www.rfc-editor.org/rfc/rfc5731.html
 [RFC3339]: https://www.rfc-editor.org/rfc/rfc3339.html
 [DKHMRFCAUTORENEW]: https://github.com/DK-Hostmaster/DKHM-RFC-AutoRenew
+[CONCEPT]: https://www.dk-hostmaster.dk/en/new-basis-collaboration-between-registrars-and-dk-hostmaster
