@@ -28,12 +28,14 @@ The overall [description of the concept][CONCEPT] of the registrar model offered
 <a id="about-this-document"></a>
 ### About this Document
 
-We have adopted the term RFC (_Request For Comments_), due to the recognition in the term and concept, so this document is a process supporting document, aiming to serve the purpose of obtaining a common understanding of the proposed implementation and to foster discussion on the details of the implementation. The final specification will be lifted into the [DK Hostmaster EPP Service Specification](https://github.com/DK-Hostmaster/epp-service-specification) implementation and this document will be closed for comments and the document no longer be updated.
+We have adopted the term RFC (_Request For Comments_), due to the recognition in the term and concept, so this document is a process supporting document, aiming to serve the purpose of obtaining a common understanding of the proposed implementation and to foster discussion on the details of the implementation. The final specification will be lifted into the [DK Hostmaster EPP Service Specification][DKHMEPPSPEC] implementation and this document will be closed for comments and the document no longer be updated.
 
 <a id="xml-and-xsd-examples"></a>
 ### XML and XSD Examples
 
-All example XML files are available in the [DK Hostmaster EPP XSD repository](https://github.com/DK-Hostmaster/epp-xsd-files) in the [delete-domain-dkhm-extension](https://github.com/DK-Hostmaster/epp-xsd-files/tree/delete-domain-dkhm-extension) branch.
+All example XML files are available in the [DK Hostmaster EPP XSD repository][DKHMXSDSPEC].
+
+The proposed extensions and XSD definitions are available in the  [3.2 candidate][DKHMXSD3.2] of the DK Hostmaster XSD, which is currently a draft and work in progress and marked as a  _pre-release_.
 
 <a id="description"></a>
 ## Description
@@ -65,7 +67,9 @@ The XSD for the extension look as follows:
   </simpleType>
 ```
 
-Ref: [`dkhm-3.2.xsd`](https://raw.githubusercontent.com/DK-Hostmaster/epp-xsd-files/master/dkhm-3.2.xsd)
+Ref: [`dkhm-3.2.xsd`][DKHMXSD3.2]
+
+:warning: The reference and file mentioned above is not released at this time, so this file might be re-versioned upon release.
 
 The complete command will look as follows (example lifted from RFC:5731):
 
@@ -157,15 +161,15 @@ Example (lifted from above):
   </extension>
 ```
 
-Ref: [`dkhm-3.2.xsd`](https://raw.githubusercontent.com/DK-Hostmaster/epp-xsd-files/master/dkhm-3.2.xsd)
+Ref: [`dkhm-3.2.xsd`][DKHMXSD3.2]
 
 :warning: The reference and file mentioned above is not released at this time, so this file might be re-versioned upon release.
 
 <a id="references"></a>
 ## References
 
-- [DK Hostmaster EPP Service Specification](https://github.com/DK-Hostmaster/epp-service-specification)
-- [DK Hostmaster EPP Service XSD Repository](https://github.com/DK-Hostmaster/epp-xsd-files)
+- [DK Hostmaster EPP Service Specification][DKHMEPPSPEC]
+- [DK Hostmaster EPP Service XSD Repository][DKHMXSDSPEC]
 - [RFC:3339: "Date and Time on the Internet: Timestamps"][RFC3339]
 - [RFC:5730 "Extensible Provisioning Protocol (EPP)"][RFC5730]
 - [RFC:5731 "Extensible Provisioning Protocol (EPP) Domain Name Mapping"][RFC5731]
@@ -173,5 +177,8 @@ Ref: [`dkhm-3.2.xsd`](https://raw.githubusercontent.com/DK-Hostmaster/epp-xsd-fi
 [RFC5730]: https://www.rfc-editor.org/rfc/rfc5730.html
 [RFC5731]: https://www.rfc-editor.org/rfc/rfc5731.html
 [RFC3339]: https://www.rfc-editor.org/rfc/rfc3339.html
+[DKHMEPPSPEC]: https://github.com/DK-Hostmaster/epp-service-specification
+[DKHMXSDSPEC]: https://github.com/DK-Hostmaster/epp-xsd-files
 [DKHMRFCAUTORENEW]: https://github.com/DK-Hostmaster/DKHM-RFC-AutoRenew
 [CONCEPT]: https://www.dk-hostmaster.dk/en/new-basis-collaboration-between-registrars-and-dk-hostmaster
+[DKHMXSD3.2]: https://github.com/DK-Hostmaster/epp-xsd-files/blob/master/dkhm-3.2.xsd
