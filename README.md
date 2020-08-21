@@ -46,7 +46,7 @@ The extension offers the ability to specify a date, this date will have to be in
 
 The current expiration date can be obtained using the `info domain` command and is specified in the `domain:exDate` field. The date conforms with the required format.
 
-An example (do note the dates in examples might not be correct, meaning they might be in the past by the time of reading):
+An example (do note the dates in the below examples are examples and are fabricated and might not be correct, meaning they might be in the past by the time of reading):
 
 ```xml
   <extension>
@@ -104,6 +104,8 @@ And the complete command with a deletion date specification (example lifted from
 
 Domain names are not deleted immediately, but are flagged as _scheduled for deletion_. This of the `delete command` is successful, the domain name will be flagged for deletion within the timeframe specified by the business rules implemented by DK Hostmaster.
 
+The scheduling of a future delete date supports the handling of automatic renewal or expiration as outlined in "[DKHM RFC for handling of Automatic Renewal and Expiration][DKHMRFCAUTORENEW]".
+
 The response for a `delete domain` command will be `1001`.
 
 Response example (example lifted from RFC:5731 and modified):
@@ -133,7 +135,7 @@ Example:
 </extension>
 ```
 
-In the RFC outlining automatic renewal "[DKHM RFC for handling of Automatic Renewal][DKHMRFCAUTORENEW]", it is outlined that a `delete domain` command will disable auto renewal if enabled. Please see the RFC for more details.
+In the RFC outlining automatic renewal "[DKHM RFC for handling of Automatic Renewal and Expiration][DKHMRFCAUTORENEW]", it is described that a `delete domain` command will disable auto renewal if enabled. Please see the RFC for more details.
 
 <a id="xsd-definition"></a>
 ## XSD Definition
