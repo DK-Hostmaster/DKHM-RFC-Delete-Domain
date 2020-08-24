@@ -23,7 +23,7 @@
 
 This is a draft and proposal for changes to the process for domain name deletion via the DK Hostmaster EPP portal/service. The specification briefly touches on the registrar portal service, which mimicks the EPP service for consistency.
 
-The overall [description of the concept][CONCEPT] of the registrar model offered by DK Hostmaster A/S provised a an general overview, where this RFC digs into the details of the cancellation/deletion of domain names in the context of an implementation proposal.
+The overall [description of the concept][CONCEPT] of the registrar model offered by DK Hostmaster A/S provides a an general overview, where this RFC digs into the details of the cancellation/deletion of domain names in the context of an implementation proposal.
 
 <a id="about-this-document"></a>
 ### About this Document
