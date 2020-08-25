@@ -14,6 +14,7 @@ Revision: 1.0
 
 - [Introduction](#introduction)
   - [About this Document](#about-this-document)
+  - [License](#license)
   - [XML and XSD Examples](#xml-and-xsd-examples)
 - [Description](#description)
 - [XSD Definition](#xsd-definition)
@@ -32,6 +33,11 @@ The overall [description of the concept][CONCEPT] of the registrar model offered
 ### About this Document
 
 We have adopted the term RFC (_Request For Comments_), due to the recognition in the term and concept, so this document is a process supporting document, aiming to serve the purpose of obtaining a common understanding of the proposed implementation and to foster discussion on the details of the implementation. The final specification will be lifted into the [DK Hostmaster EPP Service Specification][DKHMEPPSPEC] implementation and this document will be closed for comments and the document no longer be updated.
+
+<a id="license"></a>
+### License
+
+This document is copyright by DK Hostmaster A/S and is licensed under the MIT License, please see the separate LICENSE file for details.
 
 <a id="xml-and-xsd-examples"></a>
 ### XML and XSD Examples
