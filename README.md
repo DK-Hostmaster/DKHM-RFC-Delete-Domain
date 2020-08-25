@@ -15,6 +15,7 @@ Revision: 1.0
 - [Introduction](#introduction)
   - [About this Document](#about-this-document)
   - [License](#license)
+  - [Document History](#document-history)
   - [XML and XSD Examples](#xml-and-xsd-examples)
 - [Description](#description)
 - [XSD Definition](#xsd-definition)
@@ -38,6 +39,12 @@ We have adopted the term RFC (_Request For Comments_), due to the recognition in
 ### License
 
 This document is copyright by DK Hostmaster A/S and is licensed under the MIT License, please see the separate LICENSE file for details.
+
+<a id="document-history"></a>
+### Document History
+
+- 1.0 2020-08-25
+  - Initial revision
 
 <a id="xml-and-xsd-examples"></a>
 ### XML and XSD Examples
