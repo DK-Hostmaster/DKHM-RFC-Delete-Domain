@@ -5,8 +5,8 @@
 ![Markdownlint Action](https://github.com/DK-Hostmaster/DKHM-RFC-Delete-Domain/workflows/Markdownlint%20Action/badge.svg)
 ![Spellcheck Action](https://github.com/DK-Hostmaster/DKHM-RFC-Delete-Domain/workflows/Spellcheck%20Action/badge.svg)
 
-2020-08-25
-Revision: 1.0
+2020-09-01
+Revision: 1.1
 
 ## Table of Contents
 
@@ -42,6 +42,9 @@ This document is copyright by DK Hostmaster A/S and is licensed under the MIT Li
 
 <a id="document-history"></a>
 ### Document History
+
+- 1.1 2020-09-01
+  - Clarification on deletion and handling of subordinates, as specified in [RFC:5731][RFC5731]
 
 - 1.0 2020-08-25
   - Initial revision
@@ -156,6 +159,8 @@ Example:
 ```
 
 In the RFC outlining automatic renewal "[DKHM RFC for handling of Automatic Renewal and Expiration][DKHMRFCAUTORENEW]", it is described that a `delete domain` command will disable auto renewal if enabled. Please see the RFC for more details.
+
+Do note that if subordinates exist these will block for a delete and the request will result in an error: `2305`.
 
 <a id="xsd-definition"></a>
 ## XSD Definition
