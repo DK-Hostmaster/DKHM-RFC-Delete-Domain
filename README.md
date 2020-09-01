@@ -58,7 +58,7 @@ The proposed extensions and XSD definitions are available in the  [3.2 candidate
 
 In addition to the standard EPP `delete domain` command, DK Hostmaster will support scheduling of deletion of domain names, by providing a date to the EPP `delete domain` command via an optional extension.
 
-The default is to deactivate immediately if possible, which complies with [RFC:5731]. Not being able to complete the request will result in a error, also in compliance with [RFC:5731]. Please see below for more information on the business process for deletion.
+The default is to deactivate immediately if possible, which complies with [RFC:5731][RFC5731]. Not being able to complete the request will result in a error, also in compliance with [RFC:5731][RFC5731]. Please see below for more information on the business process for deletion.
 
 The extension offers the ability to specify a date, this date will have to be in the future and prior to, or on the expiration date of the specified domain name.
 
