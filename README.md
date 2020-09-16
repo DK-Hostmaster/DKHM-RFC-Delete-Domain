@@ -43,6 +43,9 @@ This document is copyright by DK Hostmaster A/S and is licensed under the MIT Li
 <a id="document-history"></a>
 ### Document History
 
+- 1.2 2020-09-16 
+  - Added information on restore as described in [RFC:3915][RFC3915] and [RFC:8748][RFC8748]
+
 - 1.1 2020-09-01
   - Clarification on deletion and handling of subordinates, as specified in [RFC:5731][RFC5731]
 
@@ -58,6 +61,8 @@ The proposed extensions and XSD definitions are available in the  [3.2 candidate
 
 <a id="description"></a>
 ## Description
+
+### Delete and Scheduling Deletion
 
 In addition to the standard EPP `delete domain` command, DK Hostmaster will support scheduling of deletion of domain names, by providing a date to the EPP `delete domain` command via an optional extension.
 
@@ -186,6 +191,45 @@ Ref: [`dkhm-3.2.xsd`][DKHMXSD3.2]
 
 :warning: The reference and file mentioned above is not released at this time, so this file might be re-versioned upon release.
 
+### Restore
+
+As described in [RFC:3915][RFC3915], with a support for grace periodes, it is possible to restore a domain name scheduled for deletion, (in the state `pendingDelete`).
+
+DK Hostmaster will support the ability to restore for two use-cases:
+
+- Get a domain name back to the state active from a pending deletion specified by an explicit deletion request (delete command) or a automatic expiration
+- Get a domain name back to state active from a pending deletion, caused by missing financial settlement
+
+Domain names might be suspended for other reasons, these will no be recoverable using the described restore facility, this will be indicated using the `serverUpdateProhibited` status.
+
+Restoration has to take place during the redemption period and will not be possible after the grace period has expired.
+
+The restoration is issued using the update domain command
+
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
+     epp-1.0.xsd">
+    <command>
+        <update>
+            <domain:update xmlns:domain="urn:ietf:params:xml:ns:domain-1.0" xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0
+       domain-1.0.xsd">
+                <domain:name>example.com</domain:name>
+                <domain:chg/>
+            </domain:update>
+        </update>
+        <extension>
+            <rgp:update xmlns:rgp="urn:ietf:params:xml:ns:rgp-1.0" xsi:schemaLocation="urn:ietf:params:xml:ns:rgp-1.0
+       rgp-1.0.xsd">
+                <rgp:restore op="request"/>
+            </rgp:update>
+        </extension>
+        <clTRID>ABC-12345</clTRID>
+    </command>
+</epp>
+```
+
 <a id="references"></a>
 ## References
 
@@ -198,6 +242,8 @@ Ref: [`dkhm-3.2.xsd`][DKHMXSD3.2]
 [RFC5730]: https://www.rfc-editor.org/rfc/rfc5730.html
 [RFC5731]: https://www.rfc-editor.org/rfc/rfc5731.html
 [RFC3339]: https://www.rfc-editor.org/rfc/rfc3339.html
+[RFC3915]: https://tools.ietf.org/html/rfc3915.html
+[RFC8748]: https://tools.ietf.org/html/rfc8748.html
 [DKHMEPPSPEC]: https://github.com/DK-Hostmaster/epp-service-specification
 [DKHMXSDSPEC]: https://github.com/DK-Hostmaster/epp-xsd-files
 [DKHMRFCAUTORENEW]: https://github.com/DK-Hostmaster/DKHM-RFC-AutoRenew
