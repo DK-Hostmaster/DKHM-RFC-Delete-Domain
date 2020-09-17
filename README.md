@@ -5,8 +5,8 @@
 ![Markdownlint Action](https://github.com/DK-Hostmaster/DKHM-RFC-Delete-Domain/workflows/Markdownlint%20Action/badge.svg)
 ![Spellcheck Action](https://github.com/DK-Hostmaster/DKHM-RFC-Delete-Domain/workflows/Spellcheck%20Action/badge.svg)
 
-2020-09-01
-Revision: 1.1
+2020-09-17
+Revision: 1.2
 
 ## Table of Contents
 
@@ -43,7 +43,7 @@ This document is copyright by DK Hostmaster A/S and is licensed under the MIT Li
 <a id="document-history"></a>
 ### Document History
 
-- 1.2 2020-09-16 
+- 1.2 2020-09-17
   - Added information on restore as described in [RFC:3915][RFC3915] and [RFC:8748][RFC8748]
 
 - 1.1 2020-09-01
@@ -204,7 +204,42 @@ Domain names might be suspended for other reasons, these will no be recoverable 
 
 Restoration has to take place during the redemption period and will not be possible after the grace period has expired.
 
-The restoration is issued using the update domain command
+The restoration is requested using the update domain command.
+
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
+    <command>
+        <update>
+            <domain:update xmlns:domain="urn:ietf:params:xml:ns:domain-1.0" xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0 domain-1.0.xsd">
+                <domain:name>example.com</domain:name>
+                <domain:chg/>
+            </domain:update>
+        </update>
+        <extension>
+            <rgp:update xmlns:rgp="urn:ietf:params:xml:ns:rgp-1.0" xsi:schemaLocation="urn:ietf:params:xml:ns:rgp-1.0 rgp-1.0.xsd">
+                <rgp:restore op="request"/>
+            </rgp:update>
+        </extension>
+        <clTRID>ABC-12345</clTRID>
+    </command>
+</epp>
+```
+
+Example is lifted from [RFC:3915][RFC:3915]
+
+The interesting part is, the extension specifying the restore operation.
+
+```xml
+<rgp:update xmlns:rgp="urn:ietf:params:xml:ns:rgp-1.0" xsi:schemaLocation="urn:ietf:params:xml:ns:rgp-1.0 rgp-1.0.xsd">
+    <rgp:restore op="request"/>
+</rgp:update>
+```
+
+This will bring the domain name into the state of: `pendingRestore` for the restore, but the domain remains in: `pendingDelete`.
+
+Next step is to acknowledge the restore operation using a report operation, which look as follows:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -213,20 +248,95 @@ The restoration is issued using the update domain command
      epp-1.0.xsd">
     <command>
         <update>
-            <domain:update xmlns:domain="urn:ietf:params:xml:ns:domain-1.0" xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0
-       domain-1.0.xsd">
+            <domain:update xmlns:domain="urn:ietf:params:xml:ns:domain-1.0" xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0 domain-1.0.xsd">
                 <domain:name>example.com</domain:name>
                 <domain:chg/>
             </domain:update>
         </update>
         <extension>
-            <rgp:update xmlns:rgp="urn:ietf:params:xml:ns:rgp-1.0" xsi:schemaLocation="urn:ietf:params:xml:ns:rgp-1.0
-       rgp-1.0.xsd">
-                <rgp:restore op="request"/>
+            <rgp:update xmlns:rgp="urn:ietf:params:xml:ns:rgp-1.0" xsi:schemaLocation="urn:ietf:params:xml:ns:rgp-1.0 rgp-1.0.xsd">
+                <rgp:restore op="report">
+                    <rgp:report>
+                        <rgp:preData></rgp:preData>
+                        <rgp:postData></rgp:postData>
+                        <rgp:delTime>2003-07-10T22:00:00.0Z</rgp:delTime>
+                        <rgp:resTime>2003-07-20T22:00:00.0Z</rgp:resTime>
+                        <rgp:resReason></rgp:resReason>
+                        <rgp:statement></rgp:statement>
+                    </rgp:report>
+                </rgp:restore>
             </rgp:update>
         </extension>
         <clTRID>ABC-12345</clTRID>
     </command>
+</epp>
+```
+
+Example is lifted from [RFC:3915][RFC:3915]
+
+The proposal is to the the report part act as an acknowledgement. The domain name is restored as is if possible, so the mandatory fields:
+
+- `rgp:preData`
+- `rgp:postData`
+- `rgp:resReason`
+- `rgp:statement`
+
+Have to be specified, but values are ignored. As are the optional field, which however is optional and does not have to be specified:
+
+- `rgp:other`
+
+The mandatory fields:
+
+- `rgp:delTime`
+- `rgp:resTime`
+
+Have to be specified and will be evaluated according to [RFC:3915][RFC3915].
+
+- The `rgp:delTime` value has to match the deletion date and time.
+- The `rgp:resTime` value has to match date and time of the initial restore request (see above).
+
+As described in [RFC:3915][RFC3915], multiple report requests can be submitted, until success and within the allowed timeframe of possible restoration.
+
+A response indicating unsuccessfull restoration attempt will look as follows:
+
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+    <response>
+        <result code="2004">
+            <msg>Restore date not valid</msg>
+        </result>
+        <trID>
+            <clTRID>ABC-12345</clTRID>
+            <svTRID>54321-XYZ</svTRID>
+        </trID>
+    </response>
+</epp>
+```
+
+Example lifted from [RFC:5730|RFC5730] and modified.
+
+A response indicating successfull restoration attempt will look as follows:
+
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
+     epp-1.0.xsd">
+    <response>
+        <result code="1000">
+            <msg lang="en">Command completed successfully</msg>
+        </result>
+        <extension>
+            <rgp:upData xmlns:rgp="urn:ietf:params:xml:ns:rgp-1.0" xsi:schemaLocation="urn:ietf:params:xml:ns:rgp-1.0 rgp-1.0.xsd">
+                <rgp:rgpStatus s="pendingRestore"/>
+            </rgp:upData>
+        </extension>
+        <trID>
+            <clTRID>ABC-12345</clTRID>
+            <svTRID>54321-XYZ</svTRID>
+        </trID>
+    </response>
 </epp>
 ```
 
