@@ -193,7 +193,7 @@ Ref: [`dkhm-3.2.xsd`][DKHMXSD3.2]
 
 ### Restore
 
-As described in [RFC:3915][RFC3915], with a support for grace periodes, it is possible to restore a domain name scheduled for deletion, (in the state `pendingDelete`).
+As described in [RFC:3915][RFC3915], with a support for grace periods, it is possible to restore a domain name scheduled for deletion, (in the state `pendingDelete`).
 
 DK Hostmaster will support the ability to restore for two use-cases:
 
@@ -274,7 +274,7 @@ Next step is to acknowledge the restore operation using a report operation, whic
 
 Example is lifted from [RFC:3915][RFC:3915]
 
-The proposal is to the the report part act as an acknowledgement. The domain name is restored as is if possible, so the mandatory fields:
+The proposal is to the the report part act as an acknowledgement. The domain name is restored _as-is_ if possible, so the mandatory fields:
 
 - `rgp:preData`
 - `rgp:postData`
@@ -297,14 +297,16 @@ Have to be specified and will be evaluated according to [RFC:3915][RFC3915].
 
 As described in [RFC:3915][RFC3915], multiple report requests can be submitted, until success and within the allowed timeframe of possible restoration.
 
-A response indicating unsuccessfull restoration attempt will look as follows:
+The process described in [RFC:3915][RFC3915]. The resolution of the `rgp:resTime` might seem at bit to strict and perhaps this part of the validity check can be relaxed.
+
+A response indicating unsuccessful restoration attempt will look as follows:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
     <response>
         <result code="2004">
-            <msg>Restore date not valid</msg>
+            <msg>Restore date is incorrect</msg>
         </result>
         <trID>
             <clTRID>ABC-12345</clTRID>
@@ -316,7 +318,7 @@ A response indicating unsuccessfull restoration attempt will look as follows:
 
 Example lifted from [RFC:5730|RFC5730] and modified.
 
-A response indicating successfull restoration attempt will look as follows:
+A response indicating successful restoration attempt will look as follows:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -339,6 +341,8 @@ A response indicating successfull restoration attempt will look as follows:
     </response>
 </epp>
 ```
+
+Example is lifted from [RFC:3915][RFC:3915]
 
 <a id="references"></a>
 ## References
