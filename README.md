@@ -18,6 +18,8 @@ Revision: 1.2
   - [Document History](#document-history)
   - [XML and XSD Examples](#xml-and-xsd-examples)
 - [Description](#description)
+  - [Delete and Scheduling Deletion](#delete-and-scheduling-deletion)
+  - [Restore](#restore)
 - [XSD Definition](#xsd-definition)
 - [References](#references)
 
@@ -62,6 +64,7 @@ The proposed extensions and XSD definitions are available in the  [3.2 candidate
 <a id="description"></a>
 ## Description
 
+<a id="delete-and-scheduling-deletion"></a>
 ### Delete and Scheduling Deletion
 
 In addition to the standard EPP `delete domain` command, DK Hostmaster will support scheduling of deletion of domain names, by providing a date to the EPP `delete domain` command via an optional extension.
@@ -167,30 +170,7 @@ In the RFC outlining automatic renewal "[DKHM RFC for handling of Automatic Rene
 
 Do note that if subordinates exist these will block for a delete and the request will result in an error: `2305`.
 
-<a id="xsd-definition"></a>
-## XSD Definition
-
-This XSD definition is for the proposed extension `dkhm:delDate`, which is used to communicate a deletion date differing from the default via the `delete domain` request.
-
-```xsd
-  <!-- custom: delDate  -->
-  <simpleType name="delDate">
-    <restriction base="dateTime" />
-  </simpleType>
-```
-
-Example (lifted from above):
-
-```xml
-  <extension>
-    <dkhm:delDate xmlns:dkhm="urn:dkhm:xml:ns:dkhm-3.2">2021-01-31T00:00:00.0Z</dkhm:delDate>
-  </extension>
-```
-
-Ref: [`dkhm-3.2.xsd`][DKHMXSD3.2]
-
-:warning: The reference and file mentioned above is not released at this time, so this file might be re-versioned upon release.
-
+<a id="restore"></a>
 ### Restore
 
 As described in [RFC:3915][RFC3915], with a support for grace periods, it is possible to restore a domain name scheduled for deletion, (in the state `pendingDelete`).
@@ -343,6 +323,30 @@ A response indicating successful restoration attempt will look as follows:
 ```
 
 Example is lifted from [RFC:3915][RFC:3915]
+
+<a id="xsd-definition"></a>
+## XSD Definition
+
+This XSD definition is for the proposed extension `dkhm:delDate`, which is used to communicate a deletion date differing from the default via the `delete domain` request.
+
+```xsd
+  <!-- custom: delDate  -->
+  <simpleType name="delDate">
+    <restriction base="dateTime" />
+  </simpleType>
+```
+
+Example (lifted from above):
+
+```xml
+  <extension>
+    <dkhm:delDate xmlns:dkhm="urn:dkhm:xml:ns:dkhm-3.2">2021-01-31T00:00:00.0Z</dkhm:delDate>
+  </extension>
+```
+
+Ref: [`dkhm-3.2.xsd`][DKHMXSD3.2]
+
+:warning: The reference and file mentioned above is not released at this time, so this file might be re-versioned upon release.
 
 <a id="references"></a>
 ## References
