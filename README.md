@@ -5,8 +5,8 @@
 ![Markdownlint Action](https://github.com/DK-Hostmaster/DKHM-RFC-Delete-Domain/workflows/Markdownlint%20Action/badge.svg)
 ![Spellcheck Action](https://github.com/DK-Hostmaster/DKHM-RFC-Delete-Domain/workflows/Spellcheck%20Action/badge.svg)
 
-2020-09-17
-Revision: 1.2
+2020-09-19
+Revision: 1.3
 
 ## Table of Contents
 
@@ -37,6 +37,8 @@ The overall [description of the concept][CONCEPT] of the registrar model offered
 
 We have adopted the term RFC (_Request For Comments_), due to the recognition in the term and concept, so this document is a process supporting document, aiming to serve the purpose of obtaining a common understanding of the proposed implementation and to foster discussion on the details of the implementation. The final specification will be lifted into the [DK Hostmaster EPP Service Specification][DKHMEPPSPEC] implementation and this document will be closed for comments and the document no longer be updated.
 
+This document is not the authoritative source for business and policy rules and possible discrepancies between this an any authoritative sources are regarded as errors in this document. This document is aimed at the technical specification and possible implementation and is an interpretation of authoritative sources and can therefor be erroneous.
+
 <a id="license"></a>
 ### License
 
@@ -44,6 +46,9 @@ This document is copyright by DK Hostmaster A/S and is licensed under the MIT Li
 
 <a id="document-history"></a>
 ### Document History
+
+- 1.3 2020-09-17
+  - Addition of disclaimer
 
 - 1.2 2020-09-17
   - Added information on restore as described in [RFC:3915][RFC3915] and [RFC:8748][RFC8748]
