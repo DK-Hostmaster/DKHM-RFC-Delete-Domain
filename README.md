@@ -327,7 +327,7 @@ A response indicating successful restoration attempt will look as follows:
 </epp>
 ```
 
-Example is lifted from [RFC:3915][RFC:3915]
+Example is lifted from [RFC:3915][RFC3915]
 
 <a id="xsd-definition"></a>
 ## XSD Definition
