@@ -212,7 +212,7 @@ The restoration is requested using the update domain command.
 </epp>
 ```
 
-Example is lifted from [RFC:3915][RFC:3915]
+Example is lifted from [RFC:3915][RFC3915]
 
 The interesting part is, the extension specifying the restore operation.
 
@@ -257,7 +257,7 @@ Next step is to acknowledge the restore operation using a report operation, whic
 </epp>
 ```
 
-Example is lifted from [RFC:3915][RFC:3915]
+Example is lifted from [RFC:3915][RFC3915]
 
 The proposal is to the the report part act as an acknowledgement. The domain name is restored _as-is_ if possible, so the mandatory fields:
 
@@ -301,7 +301,7 @@ A response indicating unsuccessful restoration attempt will look as follows:
 </epp>
 ```
 
-Example lifted from [RFC:5730|RFC5730] and modified.
+Example lifted from [RFC:5730][RFC5730] and modified.
 
 A response indicating successful restoration attempt will look as follows:
 
