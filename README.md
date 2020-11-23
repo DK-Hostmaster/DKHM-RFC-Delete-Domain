@@ -5,8 +5,8 @@
 ![Markdownlint Action](https://github.com/DK-Hostmaster/DKHM-RFC-Delete-Domain/workflows/Markdownlint%20Action/badge.svg)
 ![Spellcheck Action](https://github.com/DK-Hostmaster/DKHM-RFC-Delete-Domain/workflows/Spellcheck%20Action/badge.svg)
 
-2020-09-19
-Revision: 1.3
+2020-11-23
+Revision: 1.4
 
 ## Table of Contents
 
@@ -47,14 +47,20 @@ This document is copyright by DK Hostmaster A/S and is licensed under the MIT Li
 <a id="document-history"></a>
 ### Document History
 
+- 1.4 2020-11-23
+  - Removal of restoration information, which has been collected in a separate RFC
+  - Addition of additional links to resources
+  - Correction to links pointing to redundant resources
+  - Minor rephrasing and clarifications
+
 - 1.3 2020-09-17
   - Addition of disclaimer
 
 - 1.2 2020-09-17
-  - Added information on restore as described in [RFC:3915][RFC3915] and [RFC:8748][RFC8748]
+  - Added information on restore as described in [RFC:3915] and [RFC:8748]
 
 - 1.1 2020-09-01
-  - Clarification on deletion and handling of subordinates, as specified in [RFC:5731][RFC5731]
+  - Clarification on deletion and handling of subordinates, as specified in [RFC:5731]
 
 - 1.0 2020-08-25
   - Initial revision
@@ -64,7 +70,9 @@ This document is copyright by DK Hostmaster A/S and is licensed under the MIT Li
 
 All example XML files are available in the [DK Hostmaster EPP XSD repository][DKHMXSDSPEC].
 
-The proposed extensions and XSD definitions are available in the  [3.2 candidate][DKHMXSD3.2] of the DK Hostmaster XSD, which is currently a draft and work in progress and marked as a  _pre-release_.
+The proposed extensions and XSD definitions are available in version [4.0][DKHMXSD4.0] of the DK Hostmaster XSD, which is marked as a  _pre-release_.
+
+The referenced XSD version is not deployed at this time and is only available in the [EPP XSD repository][DKHMXSDSPEC], it might be surpassed by a newer version upon deployment of the EPP service implementing the proposal, please refer to the revision of [EPP Service Specification][DKHMEPPSPEC] describing the implementation.
 
 <a id="description"></a>
 ## Description
@@ -74,7 +82,7 @@ The proposed extensions and XSD definitions are available in the  [3.2 candidate
 
 In addition to the standard EPP `delete domain` command, DK Hostmaster will support scheduling of deletion of domain names, by providing a date to the EPP `delete domain` command via an optional extension.
 
-The default is to deactivate immediately if possible, which complies with [RFC:5731][RFC5731]. Not being able to complete the request will result in a error, also in compliance with [RFC:5731][RFC5731]. Please see below for more information on the business process for deletion.
+The default is to deactivate immediately if possible, which complies with [RFC:5731]. Not being able to complete the request will result in a error, also in compliance with [RFC:5731]. Please see below for more information on the business process for deletion.
 
 The extension offers the ability to specify a date, this date will have to be in the future and prior to, or on the expiration date of the specified domain name.
 
@@ -88,7 +96,7 @@ An example (do note the dates in the below examples are examples and are fabrica
   </extension>
 ```
 
-The date follows the format used in the EPP protocol, which complies with [RFC:3339][RFC3339].
+The date follows the format used in the EPP protocol, which complies with [RFC:3339].
 
 The XSD for the extension look as follows:
 
@@ -99,7 +107,7 @@ The XSD for the extension look as follows:
   </simpleType>
 ```
 
-Ref: [`dkhm-3.2.xsd`][DKHMXSD3.2]
+Ref: [`dkhm-4.0.xsd`][DKHMXSD4.0]
 
 :warning: The reference and file mentioned above is not released at this time, so this file might be re-versioned upon release.
 
@@ -131,7 +139,7 @@ And the complete command with a deletion date specification (example lifted from
           </domain:delete>
       </delete>
       <extension>
-        <dkhm:delDate xmlns:dkhm="urn:dkhm:xml:ns:dkhm-3.2">2021-01-31T00:00:00.0Z</dkhm:delDate>
+        <dkhm:delDate xmlns:dkhm="urn:dkhm:xml:ns:dkhm-4.0">2021-01-31T00:00:00.0Z</dkhm:delDate>
       </extension>
       <clTRID>ABC-12345</clTRID>
     </command>
@@ -167,7 +175,7 @@ Example:
 
 ```xml
 <extension>
-    <dkhm:domainAdvisory advisory="pendingDeletionDate" date="2021-01-31T00:00:00.0Z" domain="eksempel.dk" xmlns:dkhm="urn:dkhm:params:xml:ns:dkhm-3.2"/>
+    <dkhm:domainAdvisory advisory="pendingDeletionDate" date="2021-01-31T00:00:00.0Z" domain="eksempel.dk" xmlns:dkhm="urn:dkhm:params:xml:ns:dkhm-4.0"/>
 </extension>
 ```
 
@@ -178,156 +186,11 @@ Do note that if subordinates exist these will block for a delete and the request
 <a id="restore"></a>
 ### Restore
 
-As described in [RFC:3915][RFC3915], with a support for grace periods, it is possible to restore a domain name scheduled for deletion, (in the state `pendingDelete`).
+As described in [RFC:3915], with a support for grace periods, it is possible to restore a domain name scheduled for deletion, (in the state `pendingDelete`).
 
-DK Hostmaster will support the ability to restore for two use-cases:
+The ability to restore a domain from a suspended state, is mentioned in the introduction as a billable operation.
 
-- Get a domain name back to the state active from a pending deletion specified by an explicit deletion request (delete command) or a automatic expiration
-- Get a domain name back to state active from a pending deletion, caused by missing financial settlement
-
-Domain names might be suspended for other reasons, these will no be recoverable using the described restore facility, this will be indicated using the `serverUpdateProhibited` status.
-
-Restoration has to take place during the redemption period and will not be possible after the grace period has expired.
-
-The restoration is requested using the update domain command.
-
-```xml
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
-     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0 epp-1.0.xsd">
-    <command>
-        <update>
-            <domain:update xmlns:domain="urn:ietf:params:xml:ns:domain-1.0" xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0 domain-1.0.xsd">
-                <domain:name>example.com</domain:name>
-                <domain:chg/>
-            </domain:update>
-        </update>
-        <extension>
-            <rgp:update xmlns:rgp="urn:ietf:params:xml:ns:rgp-1.0" xsi:schemaLocation="urn:ietf:params:xml:ns:rgp-1.0 rgp-1.0.xsd">
-                <rgp:restore op="request"/>
-            </rgp:update>
-        </extension>
-        <clTRID>ABC-12345</clTRID>
-    </command>
-</epp>
-```
-
-Example is lifted from [RFC:3915][RFC3915]
-
-The interesting part is, the extension specifying the restore operation.
-
-```xml
-<rgp:update xmlns:rgp="urn:ietf:params:xml:ns:rgp-1.0" xsi:schemaLocation="urn:ietf:params:xml:ns:rgp-1.0 rgp-1.0.xsd">
-    <rgp:restore op="request"/>
-</rgp:update>
-```
-
-This will bring the domain name into the state of: `pendingRestore` for the restore, but the domain remains in: `pendingDelete`.
-
-Next step is to acknowledge the restore operation using a report operation, which look as follows:
-
-```xml
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
-     epp-1.0.xsd">
-    <command>
-        <update>
-            <domain:update xmlns:domain="urn:ietf:params:xml:ns:domain-1.0" xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0 domain-1.0.xsd">
-                <domain:name>example.com</domain:name>
-                <domain:chg/>
-            </domain:update>
-        </update>
-        <extension>
-            <rgp:update xmlns:rgp="urn:ietf:params:xml:ns:rgp-1.0" xsi:schemaLocation="urn:ietf:params:xml:ns:rgp-1.0 rgp-1.0.xsd">
-                <rgp:restore op="report">
-                    <rgp:report>
-                        <rgp:preData></rgp:preData>
-                        <rgp:postData></rgp:postData>
-                        <rgp:delTime>2003-07-10T22:00:00.0Z</rgp:delTime>
-                        <rgp:resTime>2003-07-20T22:00:00.0Z</rgp:resTime>
-                        <rgp:resReason></rgp:resReason>
-                        <rgp:statement></rgp:statement>
-                    </rgp:report>
-                </rgp:restore>
-            </rgp:update>
-        </extension>
-        <clTRID>ABC-12345</clTRID>
-    </command>
-</epp>
-```
-
-Example is lifted from [RFC:3915][RFC3915]
-
-The proposal is to the the report part act as an acknowledgement. The domain name is restored _as-is_ if possible, so the mandatory fields:
-
-- `rgp:preData`
-- `rgp:postData`
-- `rgp:resReason`
-- `rgp:statement`
-
-Have to be specified, but values are ignored. As are the optional field, which however is optional and does not have to be specified:
-
-- `rgp:other`
-
-The mandatory fields:
-
-- `rgp:delTime`
-- `rgp:resTime`
-
-Have to be specified and will be evaluated according to [RFC:3915][RFC3915].
-
-- The `rgp:delTime` value has to match the deletion date and time.
-- The `rgp:resTime` value has to match date and time of the initial restore request (see above).
-
-As described in [RFC:3915][RFC3915], multiple report requests can be submitted, until success and within the allowed timeframe of possible restoration.
-
-The process described in [RFC:3915][RFC3915]. The resolution of the `rgp:resTime` might seem at bit to strict and perhaps this part of the validity check can be relaxed.
-
-A response indicating unsuccessful restoration attempt will look as follows:
-
-```xml
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
-    <response>
-        <result code="2004">
-            <msg>Restore date is incorrect</msg>
-        </result>
-        <trID>
-            <clTRID>ABC-12345</clTRID>
-            <svTRID>54321-XYZ</svTRID>
-        </trID>
-    </response>
-</epp>
-```
-
-Example lifted from [RFC:5730][RFC5730] and modified.
-
-A response indicating successful restoration attempt will look as follows:
-
-```xml
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
-     epp-1.0.xsd">
-    <response>
-        <result code="1000">
-            <msg lang="en">Command completed successfully</msg>
-        </result>
-        <extension>
-            <rgp:upData xmlns:rgp="urn:ietf:params:xml:ns:rgp-1.0" xsi:schemaLocation="urn:ietf:params:xml:ns:rgp-1.0 rgp-1.0.xsd">
-                <rgp:rgpStatus s="pendingRestore"/>
-            </rgp:upData>
-        </extension>
-        <trID>
-            <clTRID>ABC-12345</clTRID>
-            <svTRID>54321-XYZ</svTRID>
-        </trID>
-    </response>
-</epp>
-```
-
-Example is lifted from [RFC:3915][RFC3915]
+The proposal for the restore implementation is outlined in the separate RFC: ["DKHM RFC for Restore Command"][DKHMRFCRESTORE].
 
 <a id="xsd-definition"></a>
 ## XSD Definition
@@ -345,30 +208,32 @@ Example (lifted from above):
 
 ```xml
   <extension>
-    <dkhm:delDate xmlns:dkhm="urn:dkhm:xml:ns:dkhm-3.2">2021-01-31T00:00:00.0Z</dkhm:delDate>
+    <dkhm:delDate xmlns:dkhm="urn:dkhm:xml:ns:dkhm-4.0">2021-01-31T00:00:00.0Z</dkhm:delDate>
   </extension>
 ```
 
-Ref: [`dkhm-3.2.xsd`][DKHMXSD3.2]
+Ref: [`dkhm-4.0.xsd`][DKHMXSD4.0]
 
-:warning: The reference and file mentioned above is not released at this time, so this file might be re-versioned upon release.
+The referenced XSD version is not deployed at this time and is only available in the [EPP XSD repository][DKHMXSDSPEC], it might be surpassed by a newer version upon deployment of the EPP service implementing the proposal, please refer to the revision of [EPP Service Specification][DKHMEPPSPEC] describing the implementation.
 
 <a id="references"></a>
 ## References
 
-- [DK Hostmaster EPP Service Specification][DKHMEPPSPEC]
-- [DK Hostmaster EPP Service XSD Repository][DKHMXSDSPEC]
-- [RFC:3339: "Date and Time on the Internet: Timestamps"][RFC3339]
-- [RFC:5730 "Extensible Provisioning Protocol (EPP)"][RFC5730]
-- [RFC:5731 "Extensible Provisioning Protocol (EPP) Domain Name Mapping"][RFC5731]
+1. ["New basis for collaboration between registrars and DK Hostmaster"][CONCEPT]
+1. [DK Hostmaster EPP Service Specification][DKHMEPPSPEC]
+1. [DK Hostmaster EPP Service XSD Repository][DKHMXSDSPEC]
+1. [DKHM RFC for handling of Automatic Renewal or Expiration][DKHMRFCAUTORENEW]
+1. [DKHM RFC for Restore Command][DKHMRFCRESTORE]
+1. [RFC:3339: "Date and Time on the Internet: Timestamps"][RFC:3339]
+1. [RFC:5730 "Extensible Provisioning Protocol (EPP)"][RFC:5730]
+1. [RFC:5731 "Extensible Provisioning Protocol (EPP) Domain Name Mapping"][RFC:5731]
 
-[RFC5730]: https://www.rfc-editor.org/rfc/rfc5730.html
-[RFC5731]: https://www.rfc-editor.org/rfc/rfc5731.html
-[RFC3339]: https://www.rfc-editor.org/rfc/rfc3339.html
-[RFC3915]: https://tools.ietf.org/html/rfc3915.html
-[RFC8748]: https://tools.ietf.org/html/rfc8748.html
+[CONCEPT]: https://www.dk-hostmaster.dk/en/new-basis-collaboration-between-registrars-and-dk-hostmaster
 [DKHMEPPSPEC]: https://github.com/DK-Hostmaster/epp-service-specification
 [DKHMXSDSPEC]: https://github.com/DK-Hostmaster/epp-xsd-files
 [DKHMRFCAUTORENEW]: https://github.com/DK-Hostmaster/DKHM-RFC-AutoRenew
-[CONCEPT]: https://www.dk-hostmaster.dk/en/new-basis-collaboration-between-registrars-and-dk-hostmaster
-[DKHMXSD3.2]: https://github.com/DK-Hostmaster/epp-xsd-files/blob/master/dkhm-3.2.xsd
+[DKHMRFCRESTORE]: https://github.com/DK-Hostmaster/DKHM-RFC-Restore
+[RFC:3339]: https://www.rfc-editor.org/rfc/rfc3339.html
+[RFC:5730]: https://www.rfc-editor.org/rfc/rfc5730.html
+[RFC:5731]: https://www.rfc-editor.org/rfc/rfc5731.html
+[DKHMXSD4.0]: https://github.com/DK-Hostmaster/epp-xsd-files/blob/master/dkhm-4.0.xsd
