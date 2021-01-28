@@ -111,7 +111,7 @@ Ref: [`dkhm-4.0.xsd`][DKHMXSD4.0]
 
 :warning: The reference and file mentioned above is not released at this time, so this file might be re-versioned upon release.
 
-The complete command will look as follows (example lifted from RFC:5731):
+The complete command will look as follows (example lifted from [RFC:5731]):
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -127,7 +127,7 @@ The complete command will look as follows (example lifted from RFC:5731):
   </epp>
 ```
 
-And the complete command with a deletion date specification (example lifted from RFC:5731 and modified):
+And the complete command with a deletion date specification (example lifted from [RFC:5731] and modified):
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -152,7 +152,7 @@ The scheduling of a future delete date supports the handling of automatic renewa
 
 The response for a `delete domain` command will be `1001`.
 
-Response example (example lifted from RFC:5731 and modified):
+Response example (example lifted from [RFC:5731] and modified):
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -225,15 +225,19 @@ The referenced XSD version is not deployed at this time and is only available in
 1. [DKHM RFC for handling of Automatic Renewal or Expiration][DKHMRFCAUTORENEW]
 1. [DKHM RFC for Restore Command][DKHMRFCRESTORE]
 1. [RFC:3339: "Date and Time on the Internet: Timestamps"][RFC:3339]
+1. [RFC:3915 "Domain Registry Grace Period Mapping for the Extensible Provisioning Protocol (EPP)"][RFC:3915]
 1. [RFC:5730 "Extensible Provisioning Protocol (EPP)"][RFC:5730]
 1. [RFC:5731 "Extensible Provisioning Protocol (EPP) Domain Name Mapping"][RFC:5731]
+1. [RFC:8748 "Registry Fee Extension for the Extensible Provisioning Protocol (EPP)"][RFC:8748]
 
 [CONCEPT]: https://www.dk-hostmaster.dk/en/new-basis-collaboration-between-registrars-and-dk-hostmaster
 [DKHMEPPSPEC]: https://github.com/DK-Hostmaster/epp-service-specification
 [DKHMXSDSPEC]: https://github.com/DK-Hostmaster/epp-xsd-files
 [DKHMRFCAUTORENEW]: https://github.com/DK-Hostmaster/DKHM-RFC-AutoRenew
 [DKHMRFCRESTORE]: https://github.com/DK-Hostmaster/DKHM-RFC-Restore
-[RFC:3339]: https://www.rfc-editor.org/rfc/rfc3339.html
-[RFC:5730]: https://www.rfc-editor.org/rfc/rfc5730.html
-[RFC:5731]: https://www.rfc-editor.org/rfc/rfc5731.html
+[RFC:3339]: https://tools.ietf.org/html/rfc3339
+[RFC:3915]: https://tools.ietf.org/html/rfc3915
+[RFC:5730]: http://tools.ietf.org/html/rfc5730
+[RFC:5731]: http://tools.ietf.org/html/rfc5731
+[RFC:8748]: https://tools.ietf.org/html/rfc8748
 [DKHMXSD4.0]: https://github.com/DK-Hostmaster/epp-xsd-files/blob/master/dkhm-4.0.xsd
